@@ -36,7 +36,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
   };
 
   return (
-    <div className="form-card w-full max-w-md p-8 animate-fade-in hover:animate-pulse">
+    <div className="form-card w-full max-w-4xl p-10 animate-fade-in hover:animate-pulse">
       <h2 className="text-2xl font-semibold mb-6 text-center">Student Login</h2>
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="mb-4 transition-all duration-300 ease-in-out">

@@ -11,7 +11,7 @@ interface DynamicFormProps {
     version: string;
     sections: FormSection[];
   };
-  onSubmit: (formValues: Record<string, any>) => void;
+  onSubmit: (formValues: FormData) => void;
 }
 
 export default function DynamicForm({ formData, onSubmit }: DynamicFormProps) {
@@ -23,7 +23,7 @@ export default function DynamicForm({ formData, onSubmit }: DynamicFormProps) {
   const currentSection = formData.sections[currentSectionIndex];
   const isLastSection = currentSectionIndex === formData.sections.length - 1;
 
-  const validateField = (field: FormField, value: any): string => {
+  const validateField = (field: FormField, value: string | boolean | string[] | undefined): string => {
     if (field.required && (!value || (Array.isArray(value) && value.length === 0))) {
       return field.validation?.message || 'This field is required';
     }
@@ -56,12 +56,15 @@ export default function DynamicForm({ formData, onSubmit }: DynamicFormProps) {
     return isValid;
   };
 
-  const handleFieldChange = (fieldId: string, value: any) => {
+  const handleFieldChange = (fieldId: string, value: string | boolean | string[]) => {
+    // Convert boolean to string for single checkboxes
+    const newValue = typeof value === 'boolean' ? (value ? 'true' : '') : value;
+  
     setValues(prev => ({
       ...prev,
-      [fieldId]: value
+      [fieldId]: newValue
     }));
-
+  
     // Clear error when field is changed
     if (errors[fieldId]) {
       setErrors(prev => {
@@ -99,7 +102,6 @@ export default function DynamicForm({ formData, onSubmit }: DynamicFormProps) {
 
   const handleConfirm = () => {
     setShowConfirm(false);
-    // Log all form data when submitting
     console.log('Form data submitted:', values);
     onSubmit(values);
   };
@@ -124,7 +126,7 @@ export default function DynamicForm({ formData, onSubmit }: DynamicFormProps) {
           <h3 className="text-2xl font-semibold mb-4 text-gray-800">{currentSection.title}</h3>
           <p className="text-base text-gray-600 mb-6">{currentSection.description}</p>
           <form onSubmit={handleSubmit} className="space-y-6">
-            {currentSection.fields.map((field, index) => (
+            {currentSection.fields.map((field) => (
               <div 
                 key={field.fieldId} 
                 className="mb-6" 

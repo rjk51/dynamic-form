@@ -5,8 +5,8 @@ import { FormField } from '../types';
 
 interface FormFieldComponentProps {
   field: FormField;
-  value: any;
-  onChange: (value: any) => void;
+  value: string | boolean | string[] | undefined;
+  onChange: (value: string | boolean | string[]) => void;
   error?: string;
 }
 
@@ -49,7 +49,7 @@ export default function FormFieldComponent({ field, value, onChange, error }: Fo
             type={field.type}
             id={field.fieldId}
             name={field.fieldId}
-            value={value || ''}
+            value={value as string || ''}
             onChange={handleChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -67,7 +67,7 @@ export default function FormFieldComponent({ field, value, onChange, error }: Fo
           <textarea
             id={field.fieldId}
             name={field.fieldId}
-            value={value || ''}
+            value={value as string || ''}
             onChange={handleChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -86,7 +86,7 @@ export default function FormFieldComponent({ field, value, onChange, error }: Fo
           <select
             id={field.fieldId}
             name={field.fieldId}
-            value={value || ''}
+            value={value as string || ''}
             onChange={handleChange}
             onFocus={handleFocus}
             onBlur={handleBlur}

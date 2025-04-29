@@ -6,6 +6,7 @@ import { registerUser, getFormStructure } from '../services/api';
 import DynamicForm from '../components/DynamicForm';
 import LoginForm from '../components/LoginForm';
 import { FormResponse } from '../types';
+import { FormData } from '../types';
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
@@ -35,7 +36,8 @@ export default function Home() {
     }
   };
 
-  const handleFormSubmit = (formValues: Record<string, any>) => {
+  
+  const handleFormSubmit = (formValues: FormData) => {
     console.log('Form submitted with values:', formValues);
   };
 
@@ -55,7 +57,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className="w-full max-w-2xl animate-slide-up">
+      <div className="w-full max-w-2xl center animate-slide-up">
         {!user ? (
           <LoginForm onSubmit={handleLogin} />
         ) : formData ? (
